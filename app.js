@@ -1,21 +1,25 @@
 const express = require('express');
 const app = express();
 const jellybeanBag = require('./data')
-console.log(jellybeanBag)
+
+ const logRequest = (verb) => {
+  console.log(`${verb} Request Received`);
+}
+
 
 app.use(express.static('public'))
 
 //Rutas 
 /* Obtienes todos los osos*/
 app.get('/beans/', (req, res, next) => {
-  console.log('GET Request Received');
+  logRequest('GET');
   res.send(jellybeanBag);
   console.log('Response Sent');
 })
 
 //Obtener oso por nombre
 app.get('/beans/:beanName', (req, res, next) => {
-  console.log('GET Request Received');
+  logRequest('GET');
   const beanName = req.params.beanName;
   if (!jellybeanBag[beanName]) {
     console.log('Response Sent');
@@ -27,7 +31,7 @@ app.get('/beans/:beanName', (req, res, next) => {
 
 //Crear un odo
 app.post('/beans/', (req, res, next) => {
-  console.log('POST Request Received');
+  logRequest('POST');
   
   let queryData = '';
 
