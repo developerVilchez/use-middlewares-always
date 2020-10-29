@@ -11,6 +11,16 @@ app.use((req, res, next) => {
   next()
 })
 
+//app.use() a nivel de ruta, código que se ejecutara solo cuando 
+//el cliente se encuentre en el endponint  /beans/:beanName
+app.use('/beans/:beanName', (req, res, next) => {
+  const name = req.params.beanName;
+  const oso = jellybeanBag[name];
+  if(!oso) return res.status(404).send('Oso con ese nombre no existe =)');
+  req.bean = oso;
+  req.beanName = name; 
+  next();
+})
 
 //Rutas 
 /* Obtienes todos los osos*/
@@ -21,12 +31,7 @@ app.get('/beans/', (req, res, next) => {
 
 //Obtener oso por nombre
 app.get('/beans/:beanName', (req, res, next) => {
-  const beanName = req.params.beanName;
-  if (!jellybeanBag[beanName]) {
-    console.log('Response Sent');
-    return res.status(404).send('Bean with that name does not exist');
-  }
-  res.send(jellybeanBag[beanName]);
+  res.send(req.bean);
   console.log('Response Sent');
 });
 
@@ -96,11 +101,7 @@ app.post('/beans/:beanName/remove', (req, res, next) => {
 
 //Borrar un oso de la base de datos
 app.delete('/beans/:beanName', (req, res, next) => {
-  const beanName = req.params.beanName;
-  if (!jellybeanBag[beanName]) {
-    return res.status(404).send('Bean with that name does not exist');
-  }
-  jellybeanBag[beanName] = null;
+  jellybeanBag[req.beanName] = null;
   res.status(204).send();
   console.log('Response Sent');
 });
