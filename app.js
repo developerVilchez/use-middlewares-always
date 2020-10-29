@@ -11,6 +11,16 @@ app.use((req, res, next) => {
   next()
 })
 
+//app.use() a nivel de ruta, código que se ejecutara solo cuando 
+//el cliente se encuentre en el endponint  /beans/:beanName
+app.use('/beans/:beanName', (req, res, next) => {
+  const name = req.params.beanName;
+  const oso = jellybeanBag[name];
+  if(!oso) return res.status(404).send('Oso con ese nombre no existe =)');
+  req.bean = oso;
+  req.beanName = name; 
+  next();
+})
 
 //Rutas 
 /* Obtienes todos los osos*/

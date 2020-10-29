@@ -42,3 +42,16 @@ es de arriba hacia abajo.
 
 - Los middlewares se pueden registrar en cualquier método. `app.use()`
 `app.get()`, `app.post()`, etc.
+
+
+4.- Utilizaremos `app.use()` a nivel de ruta. Es decir, queremos que se siempre se ejecute cierta lógica cuando el usuario se ubique en el path `/beans/:beanName` indistintamente del método http que este esté enviando como solicitud.
+
+Por lo tanto, lo que queremos hacer, es que **siempre que el cliente** vaya al endpoint `/beans/:beanName` se verifique lo siguiente :
+- el nombre de oso que envía como parámetro está registrado en la base de datos,
+- si ese nombre no existe, que se envíe la respuesta y el código de estado `404`
+- si existe, vamos a asociar al objeto **req** la propiedad **bean** cuyo valor será el objeto guardado para ese oso en la base de datos.
+- si existe, también vamos a asociar al objeto **req** la propiedad **beanName** cuyo valor será el nombre que viene como parámetro
+- finalmente lo pasaremos al siguiente middleware, con next()
+
+necesitamos validar que el nombre que se envía como parámetro en el path tenga un objeto asociado en la base de datos. 
+
