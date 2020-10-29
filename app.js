@@ -25,7 +25,7 @@ app.use('/beans/:beanName', (req, res, next) => {
 
 
 // Add your code below:
-app.use(['/beans/', '/beans/:beanName'], (req, res, next) => {
+const bodyParser =  (req, res, next) => {
   //Siempre que enviemos data en el body
   let bodyData = '';
   req.on('data', (data) => {
@@ -54,7 +54,7 @@ app.get('/beans/:beanName', (req, res, next) => {
 });
 
 //Crear un odo
-app.post('/beans/', (req, res, next) => {
+app.post('/beans/', bodyParser, (req, res, next) => {
   const body = req.body; //viene del middleware
   const beanName = body.name;
   //verificamos que el nombre del oso no se repita
@@ -72,7 +72,7 @@ app.post('/beans/', (req, res, next) => {
 });
 
 //Aumentar el stock de osos
-app.post('/beans/:beanName/add', (req, res, next) => {
+app.post('/beans/:beanName/add', bodyParser, (req, res, next) => {
   console.log(req.body);
   const numberOfBeans = Number(req.body.number) || 0;
   req.bean.number += numberOfBeans;
@@ -82,7 +82,7 @@ app.post('/beans/:beanName/add', (req, res, next) => {
 
 
 //Eliminar una cantidad de osos, disminuir el stock de osos
-app.post('/beans/:beanName/remove', (req, res, next) => {
+app.post('/beans/:beanName/remove', bodyParser, (req, res, next) => {
   const numberOfBeans = Number(req.body.number) || 0;
   if (req.bean.number < numberOfBeans) {
     return res.status(400).send('Not enough beans in the jar to remove!');
@@ -92,7 +92,7 @@ app.post('/beans/:beanName/remove', (req, res, next) => {
   console.log('Response Sent');
 });
 
-app.put('/beans/:beanName/name', (req, res, next) => {
+app.put('/beans/:beanName/name', bodyParser, (req, res, next) => {
   const newName = req.body.name;
   jellybeanBag[newName] = req.bean;
   jellybeanBag[req.beanName] = null
