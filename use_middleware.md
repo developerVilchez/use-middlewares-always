@@ -57,4 +57,13 @@ necesitamos validar que el nombre que se envía como parámetro en el path tenga
 
 
 5.- Se observa que en cada manejador de ruta **put** y **post** hay código que se 
-repite. 
+repite. Pero los path son diferentes. 
+
+Por lo tanto los middlewares que se suscriban a app.use() con los paths
+`/beans/` y `/beans/:beanName` se invocarán siempre
+
+***/beans/***
+***/beans/:beanName***
+***/beans/:beanName/add***
+***/beans/:beanName/remove***
+***/beans/:beanName/name***
