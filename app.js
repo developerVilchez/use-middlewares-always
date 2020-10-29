@@ -8,6 +8,7 @@ app.use(express.static('public'));
 //registramos la función de middleware
 app.use((req, res, next) => {
   console.log(`middleware : ${req.method} Request Received`);
+  next()
 })
 
 

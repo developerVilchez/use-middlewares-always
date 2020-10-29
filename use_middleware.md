@@ -34,3 +34,11 @@ En el ejemplo:
 - `app.use()` toma como parámetro una función de callback que invocará para cada 
 `request` que realice el cliente(navegador)-
 - Cada vez que el servidor reciba una solicitud(request) encuentra la primera función de middleware registrada y la invocará. En este caso encontrará la función de callback e imprimirá en consola `request received`
+
+- `next()` indica que se pase al siguiente middleware.
+
+- En express lo que tu indicas es una pila de `middlewares` en donde la ejecución 
+es de arriba hacia abajo.
+
+- Los middlewares se pueden registrar en cualquier método. `app.use()`
+`app.get()`, `app.post()`, etc.
