@@ -37,7 +37,8 @@ const bodyParser =  (req, res, next) => {
     }
     next();
   });
-});
+};
+
 
 
 //Rutas 
