@@ -55,3 +55,6 @@ Por lo tanto, lo que queremos hacer, es que **siempre que el cliente** vaya al e
 
 necesitamos validar que el nombre que se envía como parámetro en el path tenga un objeto asociado en la base de datos. 
 
+
+5.- Se observa que en cada manejador de ruta **put** y **post** hay código que se 
+repite. 
