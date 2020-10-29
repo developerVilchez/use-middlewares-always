@@ -2,24 +2,26 @@ const express = require('express');
 const app = express();
 const jellybeanBag = require('./data')
 
- const logRequest = (verb) => {
-  console.log(`${verb} Request Received`);
-}
+app.use(express.static('public'));
 
 
-app.use(express.static('public'))
+//registramos la función de middleware
+app.use((req, res, next) => {
+  console.log(`middleware : ${req.method} Request Received`);
+})
+
 
 //Rutas 
 /* Obtienes todos los osos*/
 app.get('/beans/', (req, res, next) => {
-  logRequest('GET');
+  //logRequest('GET');
   res.send(jellybeanBag);
   console.log('Response Sent');
 })
 
 //Obtener oso por nombre
 app.get('/beans/:beanName', (req, res, next) => {
-  logRequest('GET');
+ // logRequest('GET');
   const beanName = req.params.beanName;
   if (!jellybeanBag[beanName]) {
     console.log('Response Sent');
@@ -31,8 +33,8 @@ app.get('/beans/:beanName', (req, res, next) => {
 
 //Crear un odo
 app.post('/beans/', (req, res, next) => {
-  logRequest('POST');
-  
+ // logRequest('POST');
+
   let queryData = '';
 
   req.on('data', (data) => {
@@ -56,7 +58,7 @@ app.post('/beans/', (req, res, next) => {
 
 //Aumentar el stock de osos
 app.post('/beans/:beanName/add', (req, res, next) => {
-  logRequest('POST');
+ // logRequest('POST');
   const beanName = req.params.beanName;
   if (!jellybeanBag[beanName]) {
     return res.status(404).send('Bean with that name does not exist');
@@ -77,7 +79,7 @@ app.post('/beans/:beanName/add', (req, res, next) => {
 
 //Eliminar una cantidad de osos, disminuir el stock de osos
 app.post('/beans/:beanName/remove', (req, res, next) => {
-  logRequest('POST');
+  //logRequest('POST');
   const beanName = req.params.beanName;
   if (!jellybeanBag[beanName]) {
     return res.status(404).send('Bean with that name does not exist');
@@ -100,7 +102,7 @@ app.post('/beans/:beanName/remove', (req, res, next) => {
 
 //Borrar un oso de la base de datos
 app.delete('/beans/:beanName', (req, res, next) => {
-  logRequest('DELETE');
+ // logRequest('DELETE');
   const beanName = req.params.beanName;
   if (!jellybeanBag[beanName]) {
     return res.status(404).send('Bean with that name does not exist');
